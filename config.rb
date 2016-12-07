@@ -20,6 +20,8 @@ activate :syntax
 
 activate :sprockets
 
+activate :livereload
+
 activate :autoprefixer do |config|
   config.browsers = ['last 2 version', 'Firefox ESR']
   config.cascade  = false
