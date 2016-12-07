@@ -200,6 +200,23 @@ metadata    | An object with extra details attached to the question
 # Applications
 ## Submitting an application
 
+> ### Understanding the answers object
+>
+> The answers object is a simple JSON object with the IDs of questions and their respective answers.
+> Here's a sample:
+
+```
+  {
+    "answers": {
+      "694d02f7-9144-4d6d-b773-b1f00b253946": "John",
+      "72775cae-62ec-4617-8c9d-7c390416c281": "Doe",
+      "b848b070-d71c-480f-8875-e83f28e17ac7": "john.doe@example.org"
+    },
+
+    "source": "Indeed"
+  }
+```
+
 Create a new application for a specific job.
 
 ### Request
@@ -214,24 +231,35 @@ answers   | Yes         | A JSON object with the answers
 source    | No          | Source of the application, if any
 
 
-> ### Understanding the answers object
->
-> The answers object is a simple JSON object with the IDs of questions and their respective answers.
-> Here's a sample:
-
-```
-  {
-    "694d02f7-9144-4d6d-b773-b1f00b253946": "John",
-    "72775cae-62ec-4617-8c9d-7c390416c281": "Doe",
-    "b848b070-d71c-480f-8875-e83f28e17ac7": "john.doe@example.org"
-  }
-```
-
 > The key is the ID of the question and the value is the candidate's answer to the question.
 
 <aside class="warning">
   You <strong>must</strong> submit answers to all the questions that are required.
 </aside>
+
+### Submitting files
+
+In case you want to handle your own file upload process, that's fine. Just send the URL of
+the uploaded file as the value of the resume field.
+
+However, if you want enlist to handle file uploads, you need to send [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) instead of a JSON object.
+Sending FormData is easy. You can find sample JavaScript code on the right.
+
+> ### Submitting FormData
+
+> Here's how to create a FormData object with your answers.
+
+```
+  let data = new FormData()
+
+  for (id in answers) {
+    let answer = answers[id]
+    data.append(`answers[${id}]`, answer)
+  }
+```
+
+> Your answers are ready. Now, you can just send `data` instead of the JSON object. enlist will
+> upload the files and handle everything else.
 
 ### Response
 
